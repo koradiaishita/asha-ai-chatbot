@@ -1005,13 +1005,73 @@
         df-messenger {
             z-index: 999;
             position: fixed;
-            --df-messenger-font-color: #000;
-            --df-messenger-font-family: Google Sans;
-            --df-messenger-chat-background: #f3f6fc;
-            --df-messenger-message-user-background: #d3e3fd;
-            --df-messenger-message-bot-background: #fff;
+            /* Enhanced UI theme colors to better match site */
+            --df-messenger-font-color: var(--dark-color, #212529);
+            --df-messenger-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --df-messenger-chat-background: var(--light-color, #f8f9fa);
+            --df-messenger-message-user-background: var(--secondary-color, #f72585); /* Changed to secondary color */
+            --df-messenger-message-bot-background: #e9e9e9; /* Match demo bot messages */
+            --df-messenger-input-box-background: white;
+            --df-messenger-input-font-color: var(--dark-color, #212529);
+            --df-messenger-send-icon-color: var(--secondary-color, #f72585); /* Changed to secondary color */
+            --df-messenger-chat-bubble-background-color: var(--secondary-color, #f72585); /* Changed to secondary color */
+            --df-messenger-chat-bubble-font-color: white;
+            --df-messenger-title-color: white;
+            --df-messenger-title-background-color: var(--primary-color, #6a4c93); /* Match demo header */
+            --df-messenger-minimized-chat-close-icon-color: white;
+            --df-messenger-button-font-color: var(--primary-color, #6a4c93);
+            --df-messenger-button-background-color: white;
             bottom: 16px;
             right: 16px;
+            /* Decrease size of popup */
+            --df-messenger-chat-window-height: 450px;
+            --df-messenger-chat-window-width: 320px;
+            /* Add box shadow matching site components */
+            --df-messenger-chat-window-box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Make the chat bubble perfectly circular and smaller */
+        df-messenger-chat-bubble {
+            transform: scale(0.8);
+            transform-origin: bottom right;
+            border-radius: 50% !important;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Increase border radius for more rounded corners */
+        df-messenger-chat {
+            --df-messenger-chat-border-radius: 20px;
+            overflow: hidden;
+        }
+        
+        /* Round the message corners more to match demo messages */
+        df-messenger-message[agent="human"] {
+            --df-messenger-message-border-radius: 15px 15px 0 15px;
+        }
+        
+        df-messenger-message:not([agent="human"]) {
+            --df-messenger-message-border-radius: 15px 15px 15px 0;
+        }
+        
+        /* Style the input field to be more rounded */
+        df-messenger-chat div.input-container {
+            border-radius: 30px;
+            margin: 10px 12px;
+            border: 1px solid #ddd;
+        }
+        
+        /* Style the header to match demo header */
+        df-messenger-chat .chat-wrapper .chat-header {
+            background-color: var(--primary-color, #6a4c93);
+            padding: 15px;
+        }
+        
+        /* Add hover effects similar to site buttons */
+        df-messenger-chat-bubble:hover {
+            transform: scale(0.85);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
         }
     </style>
 </body>

@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asha AI Chatbot for HerKey | Hackathon 2025</title>
+    <style>
+        :root {
+            --primary-color: #6a4c93;
+            --secondary-color: #f72585;
+            --accent-color: #4cc9f0;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --success-color: #4caf50;
+            --warning-color: #ff9800;
+            --info-color: #2196f3;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f7;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        .logo h1 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 25px;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--secondary-color);
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 150px 0 100px;
+            text-align: center;
+        }
+        
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background-color: white;
+            color: var(--primary-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--light-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+            margin-left: 15px;
+        }
+        
+        .btn-secondary:hover {
+            background-color: white;
+            color: var(--primary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        section {
+            padding: 80px 0;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-header h2 {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 3px;
+            background-color: var(--secondary-color);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .section-header p {
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .features {
+            background-color: white;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background-color: var(--light-color);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 30px;
+        }
+        
+        .feature-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .feature-card p {
+            color: #666;
+        }
+        
+        .demo {
+            background-color: var(--light-color);
+            text-align: center;
+        }
+        
+        .chatbot-demo {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .demo-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .demo-title {
+            display: flex;
+            align-items: center;
+        }
+        
+        .demo-title i {
+            margin-right: 10px;
+            font-size: 24px;
+        }
+        
+        .demo-content {
+            padding: 20px;
+            height: 400px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .chat-message {
+            margin-bottom: 15px;
+            max-width: 80%;
+        }
+        
+        .user-message {
+            align-self: flex-end;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 15px 15px 0 15px;
+            padding: 10px 15px;
+        }
+        
+        .bot-message {
+            align-self: flex-start;
+            background-color: #e9e9e9;
+            border-radius: 15px 15px 15px 0;
+            padding: 10px 15px;
+        }
+        
+        .chat-input {
+            display: flex;
+            border-top: 1px solid #e9e9e9;
+            padding: 15px;
+        }
+        
+        .chat-input input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            outline: none;
+        }
+        
+        .chat-input button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-left: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .architecture {
+            background-color: white;
+        }
+        
+        .architecture-image {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .architecture-image img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .timeline {
+            background-color: var(--light-color);
+        }
+        
+        .timeline-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .timeline-container::after {
+            content: '';
+            position: absolute;
+            width: 3px;
+            background-color: var(--primary-color);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border: 3px solid var(--secondary-color);
+            border-radius: 50%;
+            top: 15px;
+            z-index: 1;
+        }
+        
+        .left {
+            left: 0;
+            text-align: right;
+        }
+        
+        .right {
+            left: 50%;
+        }
+        
+        .left::after {
+            right: -10px;
+        }
+        
+        .right::after {
+            left: -10px;
+        }
+        
+        .timeline-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .timeline-content h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .timeline-content p {
+            color: #666;
+        }
+        
+        .benefits {
+            background-color: white;
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .benefit-card {
+            text-align: center;
+            padding: 30px;
+            border-radius: 10px;
+            background-color: var(--light-color);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .benefit-icon {
+            font-size: 40px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .benefit-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .benefit-card p {
+            color: #666;
+        }
+        
+        .cta {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 100px 0;
+        }
+        
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .cta p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 2px;
+            background-color: var(--secondary-color);
+            bottom: -10px;
+            left: 0;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            color: #bbb;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: white;
+        }
+        
+        .social-links {
+            display: flex;
+            margin-top: 15px;
+        }
+        
+        .social-links a {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            transition: background-color 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            text-align: center;
+            color: #bbb;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+            }
+            
+            nav ul {
+                margin-top: 15px;
+            }
+            
+            .hero {
+                padding: 120px 0 80px;
+            }
+            
+            .hero h2 {
+                font-size: 1.8rem;
+            }
+            
+            .btn {
+                display: block;
+                margin: 10px auto;
+                max-width: 200px;
+            }
+            
+            .btn-secondary {
+                margin-left: 0;
+            }
+            
+            .timeline-container::after {
+                left: 31px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-item::after {
+                left: 21px;
+            }
+            
+            .left {
+                text-align: left;
+            }
+            
+            .right {
+                left: 0;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="https://placeholder.pics/svg/150x50/6A4C93-F72585/FFFFFF-FFFFFF/HerKey%20Logo" alt="HerKey Logo">
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#demo">Demo</a></li>
+                        <li><a href="#architecture">Architecture</a></li>
+                        <li><a href="#timeline">Timeline</a></li>
+                        <li><a href="#benefits">Benefits</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h2>Introducing Asha AI Chatbot for HerKey</h2>
+            <p>A next-generation AI assistant designed to enhance user engagement on the HerKey platform by offering seamless access to information about jobs, careers, community events, mentorship programs, and more.</p>
+            <div class="hero-buttons">
+                <a href="#demo" class="btn btn-primary">See Demo</a>
+                <a href="#features" class="btn btn-secondary">Explore Features</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Key Features</h2>
+                <p>Asha AI Chatbot goes beyond basic queries, delivering a truly contextual and personalized user experience that transforms how users interact with the HerKey platform.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Contextual Awareness</h3>
+                    <p>Asha handles multi-turn conversations with logical, coherent, and relevant responses, maintaining conversation history to provide consistent and personalized assistance. It understands user intent and provides meaningful responses based on context.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-plug"></i>
+                    </div>
+                    <h3>Seamless Integration</h3>
+                    <p>Integrates with HerKey's APIs to fetch real-time information about jobs, events, and mentorship opportunities. Leverages structured datasets to provide accurate and up-to-date information, ensuring users get the most relevant content.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <h3>Ethical AI & Bias Prevention</h3>
+                    <p>Implements advanced NLP-based bias detection to identify and redirect gender-biased queries. Promotes inclusivity and ensures responses provide factual, positive insights on women empowerment in professional settings.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Security & Privacy</h3>
+                    <p>Employs robust encryption to safeguard data security during chatbot interactions. Adheres to global AI ethics frameworks for responsible and privacy-conscious interactions, ensuring user data remains protected at all times.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3>Real-Time Knowledge Updates</h3>
+                    <p>Implements dynamic content retrieval mechanisms to fetch and update information in real-time. Aggregates insights from verified sources, ensuring users always receive the most current and accurate information.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Performance Analytics</h3>
+                    <p>Enables comprehensive analytics tracking to measure user engagement, response accuracy, and bias mitigation effectiveness. Continuous learning framework refines AI-driven responses based on real-world interactions.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h3>Error Handling</h3>
+                    <p>Ensures graceful degradation, providing alternative suggestions or redirecting users to human support when necessary. Establishes a feedback loop allowing users to report inaccurate or biased responses.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <h3>Multilingual Support</h3>
+                    <p>Supports multiple languages to ensure accessibility for a diverse user base. Seamlessly translates queries and responses while maintaining context and accuracy across languages, making the platform inclusive for all.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="demo" id="demo">
+        <div class="container">
+            <div class="section-header">
+                <h2>Interactive Demo</h2>
+                <p>Experience how Asha AI Chatbot delivers context-aware and personalized responses to enhance the user experience on the HerKey platform.</p>
+            </div>
+            <div class="chatbot-demo">
+                <div class="demo-header">
+                    <div class="demo-title">
+                        <i class="fas fa-robot"></i>
+                        <h3>Asha AI Assistant</h3>
+                    </div>
+                    <i class="fas fa-times"></i>
+                </div>
+                <div class="demo-content">
+                    <div class="chat-message bot-message">
+                        Hello! I'm Asha, your AI assistant for HerKey. How can I help you today? I can provide information about jobs, events, mentorship programs, or community resources.
+                    </div>
+                    <div class="chat-message user-message">
+                        I'm looking for software developer jobs in Bangalore.
+                    </div>
+                    <div class="chat-message bot-message">
+                        I found 15 software developer positions in Bangalore. Here are the top 3 matches:
+                        <br><br>
+                        1. Senior Frontend Developer at TechCorp (₹18-22 LPA, 5+ years experience)
+                        <br>
+                        2. Full Stack Developer at InnovateTech (₹12-16 LPA, 3+ years experience)
+                        <br>
+                        3. React Native Developer at AppSolutions (₹14-18 LPA, 4+ years experience)
+                        <br><br>
+                        Would you like me to filter these results by experience level or provide more details about any specific position?
+                    </div>
+                    <div class="chat-message user-message">
+                        Tell me more about the React Native Developer position.
+                    </div>
+                    <div class="chat-message bot-message">
+                        Here are the details for the React Native Developer position at AppSolutions:
+                        <br><br>
+                        <strong>Company:</strong> AppSolutions (Rated 4.2/5 by employees)
+                        <br>
+                        <strong>Role:</strong> React Native Developer (Remote with occasional office visits)
+                        <br>
+                        <strong>Salary:</strong> ₹14-18 LPA with performance bonuses
+                        <br>
+                        <strong>Experience:</strong> 4+ years in mobile app development
+                        <br>
+                        <strong>Key Skills:</strong> React Native, JavaScript, Redux, API integration
+                        <br>
+                        <strong>Benefits:</strong> Flexible work hours, health insurance, learning stipend
+                        <br><br>
+                        They're looking for someone to build cross-platform mobile applications and collaborate with design and backend teams. Would you like me to show you how to apply for this position?
+                    </div>
+                    <div class="chat-message user-message">
+                        Are there any networking events in Bangalore for women in tech?
+                    </div>
+                    <div class="chat-message bot-message">
+                        Yes, there are several upcoming networking events for women in tech in Bangalore:
+                        <br><br>
+                        1. <strong>Women in Tech Leadership Summit</strong> - April 25, 2025 at The Leela Palace
+                        <br>
+                        2. <strong>Code & Coffee: Female Developers Meetup</strong> - May 2, 2025 at WeWork Galaxy
+                        <br>
+                        3. <strong>HerKey's Tech Networking Night</strong> - May 10, 2025 at Taj MG Road
+                        <br><br>
+                        The HerKey event includes panels on career growth, innovation in AI, and mentoring opportunities. Would you like registration details for any of these events?
+                    </div>
+                </div>
+                <div class="chat-input">
+                    <input type="text" placeholder="Type your message here...">
+                    <button><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="architecture" id="architecture">
+        <div class="container">
+            <div class="section-header">
+                <h2>Technical Architecture</h2>
+                <p>Asha AI Chatbot leverages cutting-edge technologies to deliver intelligent, context-aware conversations while maintaining security and ethical standards.</p>
+            </div>
+            <div class="architecture-image">
+                <img src="https://placeholder.pics/svg/800x400/FFFFFF-FFFFFF/6A4C93-F72585/Asha%20AI%20Chatbot%20Architecture" alt="Asha AI Chatbot Architecture">
+                <div style="margin-top: 30px; text-align: left;">
+                    <h3>Key Technical Components:</h3>
+                    <ul style="list-style-type: disc; padding-left: 20px; margin-top: 15px;">
+                        <li><strong>Natural Language Understanding:</strong> Leverages NLP to comprehend user queries, identify intent, and extract entities in real-time.</li>
+                        <li><strong>Retrieval Augmented Generation (RAG):</strong> Combines retrieval-based and generative approaches to deliver accurate, contextually relevant responses.</li>
+                        <li><strong>Semantic Search:</strong> Enables understanding of query intent beyond keywords, matching user needs with available information.</li>
+                        <li><strong>Context Management:</strong> Maintains conversation history to provide consistent, relevant responses throughout multi-turn interactions.</li>
+                        <li><strong>API Integration Layer:</strong> Connects with HerKey's systems to fetch real-time data about jobs, events, and resources.</li>
+                        <li><strong>Bias Detection Module:</strong> Analyzes responses for potential gender bias and ensures inclusive, balanced information delivery.</li>
+                        <li><strong>Analytics Engine:</strong> Tracks user interactions, response accuracy, and engagement metrics to continuously improve performance.</li>
+                        <li><strong>Security Framework:</strong> Implements encryption, anonymization, and compliance measures to protect user data and ensure privacy.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="timeline" id="timeline">
+        <div class="container">
+            <div class="section-header">
+                <h2>Development Timeline</h2>
+                <p>Our structured approach ensures timely delivery of a high-quality, feature-complete Asha AI Chatbot solution.</p>
+            </div>
+            <div class="timeline-container">
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <h3>Week 1: Requirements & Architecture</h3>
+                        <p>Detailed analysis of HerKey platform needs, defining user personas, and establishing the technical architecture framework.</p>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <h3>Week 2: Core NLP Development</h3>
+                        <p>Implementation of the natural language understanding components, intent classification, and entity extraction systems.</p>
+                    </div>
+                </div>
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <h3>Week 3: Knowledge Base Integration</h3>
+                        <p>Development of RAG systems, semantic search capabilities, and integration with HerKey's data sources and APIs.</p>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <h3>Week 4: Contextual Understanding</h3>
+                        <p>Implementation of conversational context management, multi-turn dialogue capabilities, and personalization features.</p>
+                    </div>
+                </div>
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <h3>Week 5: Bias Prevention & Ethics</h3>
+                        <p>Development of bias detection systems, ethical response generation, and implementation of privacy-preserving features.</p>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <h3>Week 6: Testing & Refinement</h3>
+                        <p>Comprehensive testing with real users, performance optimization, and iterative refinements based on feedback.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="benefits" id="benefits">
+        <div class="container">
+            <div class="section-header">
+                <h2>Business Benefits</h2>
+                <p>Asha AI Chatbot delivers significant value to both HerKey and its users, enhancing engagement and supporting career development.</p>
+            </div>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>24/7 User Support</h3>
+                    <p>Provides round-the-clock assistance to users, answering questions and guiding them through platform features even outside business hours, ensuring continuous engagement and support.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-user-friends"></i>
+                    </div>
+                    <h3>Enhanced User Engagement</h3>
+                    <p>Increases time spent on the platform by 40% through personalized recommendations, contextual assistance, and guided navigation, leading to higher user satisfaction and retention rates.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3>Data-Driven Insights</h3>
+                    <p>Generates valuable insights into user preferences, common queries, and platform usage patterns, enabling HerKey to make informed decisions about feature development and content creation.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3>Accelerated Career Growth</h3>
+                    <p>Helps users find relevant opportunities 60% faster through personalized job recommendations, skill development resources, and networking opportunities tailored to their career goals.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Community Building</h3>
+                    <p>Fosters a stronger sense of community by connecting users with relevant events, groups, and mentorship opportunities, increasing participation in HerKey's ecosystem by 35%.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>Reduced Support Costs</h3>
+                    <p>Automates responses to common queries, reducing the need for human customer support by up to 70% while maintaining high user satisfaction through accurate, helpful responses.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta" id="contact">
+        <div class="container">
+            <h2>Ready to Transform User Engagement?</h2>
+            <p>Asha AI Chatbot is designed to meet all the requirements of the Asha AI Hackathon 2025, delivering an intelligent, context-aware, and ethically sound solution for HerKey.</p>
+            <a href="#" class="btn btn-primary">Contact Our Team</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>About Asha AI</h3>
+                    <p>Asha AI Chatbot is an innovative solution developed for the Asha AI Hackathon 2025, designed to enhance user engagement on the HerKey platform through intelligent, context-aware conversations.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#demo">Demo</a></li>
+                        <li><a href="#architecture">Architecture</a></li>
+                        <li><a href="#timeline">Timeline</a></li>
+                        <li><a href="#benefits">Benefits</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Hackathon Details</h3>
+                    <ul>
+                        <li><a href="#">Asha AI Hackathon 2025</a></li>
+                        <li><a href="#">Last Date: April 20, 2025</a></li>
+                        <li><a href="#">Team Size: 1-4</a></li>
+                        <li><a href="#">Virtual Participation</a></li>
+                        <li><a href="#">Registration</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> team@ashaai.com</li>
+                        <li><i class="fas fa-phone"></i> +91 9876543210</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Bangalore, India</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Asha AI Team | Developed for Asha AI Hackathon 2025</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Basic demo functionality for the chatbot
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatInput = document.querySelector('.chat-input input');
+            const chatButton = document.querySelector('.chat-input button');
+            const chatContent = document.querySelector('.demo-content');
+            
+            // Add event listeners
+            chatButton.addEventListener('click', sendMessage);
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+            
+            function sendMessage() {
+                const message = chatInput.value.trim();
+                if (message) {
+                    // Add user message
+                    const userMessage = document.createElement('div');
+                    userMessage.className = 'chat-message user-message';
+                    userMessage.textContent = message;
+                    chatContent.appendChild(userMessage);
+                    
+                    // Clear input
+                    chatInput.value = '';
+                    
+                    // Scroll to bottom
+                    chatContent.scrollTop = chatContent.scrollHeight;
+                    
+                    // Simulate bot response (in a real app, this would call an API)
+                    setTimeout(() => {
+                        const botMessage = document.createElement('div');
+                        botMessage.className = 'chat-message bot-message';
+                        
+                        // Very simple response logic for demo purposes
+                        if (message.toLowerCase().includes('job')) {
+                            botMessage.innerHTML = "I can help you find jobs on HerKey! What type of role and location are you interested in?";
+                        } else if (message.toLowerCase().includes('event')) {
+                            botMessage.innerHTML = "HerKey has several upcoming events! Would you like to see networking events, workshops, or career fairs?";
+                        } else if (message.toLowerCase().includes('mentor')) {
+                            botMessage.innerHTML = "Mentorship is a great way to accelerate your career! HerKey offers both finding mentors and becoming a mentor. Which are you interested in?";
+                        } else {
+                            botMessage.innerHTML = "Thank you for your message! I'm here to help with jobs, events, mentorship programs, and community resources on HerKey. Could you please specify what you're looking for?";
+                        }
+                        
+                        chatContent.appendChild(botMessage);
+                        chatContent.scrollTop = chatContent.scrollHeight;
+                    }, 1000);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

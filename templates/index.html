@@ -6,6 +6,7 @@
     <title>Asha AI - Empowering Women Through Career Guidance</title>
     <link rel="stylesheet" href="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/themes/df-messenger-default.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/df-messenger.js"></script>
     <style>
         /* Reset and base styles */
         :root {
@@ -852,6 +853,100 @@
                 margin-top: 10px;
             }
         }
+
+        /* Dialogflow Messenger styles */
+        df-messenger {
+            z-index: 1000;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            
+            /* Font settings */
+            --df-messenger-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            --df-messenger-font-size: 14px;
+            --df-messenger-font-color: #333; /* --text-dark from your CSS */
+            --df-messenger-chat-border-radius: 20px;
+            /* Chat bubble styling */
+            --df-messenger-chat-bubble-background: linear-gradient(135deg, #8e4777 0%, #9c3f92 100%);
+            --df-messenger-chat-bubble-size: 60px;
+            --df-messenger-chat-bubble-border-radius: 50%;
+            --df-messenger-chat-bubble-icon-color: white;
+            
+            /* Title bar styling */
+            --df-messenger-titlebar-background: linear-gradient(135deg, #8e4777 0%, #9c3f92 100%);
+            --df-messenger-titlebar-font-color: white;
+            --df-messenger-titlebar-title-font-size: 18px;
+            --df-messenger-titlebar-title-font-weight: 600;
+            --df-messenger-titlebar-subtitle-font-size: 14px;
+            --df-messenger-titlebar-subtitle-font-color: rgba(255, 255, 255, 0.9);
+            --df-messenger-titlebar-padding: 18px 15px;
+            
+            /* Chat box styling */
+            --df-messenger-chat-background: #f6f6f6; /* --gray-bg from your CSS */
+            --df-messenger-message-spacing: 15px;
+            --df-messenger-message-border-radius: 18px;
+            
+            /* Bot message styling */
+            --df-messenger-message-bot-background: white;
+            --df-messenger-message-bot-border-radius: 18px 18px 18px 0;
+            --df-messenger-message-bot-font-color: #333; /* --text-dark from your CSS */
+            --df-messenger-message-bot-font-weight: 400;
+            
+            /* User message styling */
+            --df-messenger-message-user-background: #8e4777; /* --primary from your CSS */
+            --df-messenger-message-user-border-radius: 18px 18px 0 18px;
+            --df-messenger-message-user-font-color: white;
+            --df-messenger-message-user-font-weight: 400;
+            
+            /* Input box styling */
+            --df-messenger-input-background: white;
+            --df-messenger-input-border-top: 1px solid #e0e0e0; /* --border-light from your CSS */
+            --df-messenger-input-box-border: 1px solid #e0e0e0;
+            --df-messenger-input-box-border-radius: 25px;
+            --df-messenger-input-box-padding: 12px 15px;
+            --df-messenger-input-box-focus-border: 1px solid #8e4777;
+            --df-messenger-input-font-color: #333;
+            --df-messenger-input-padding: 12px 15px;
+            
+            /* Send icon styling */
+            --df-messenger-send-icon-color: #7ac142; /* --green from your CSS */
+            --df-messenger-send-icon-color-hover: #69b132;
+            --df-messenger-send-icon-color-active: #7ac142;
+            
+            /* Bot writing animation */
+            --df-messenger-message-bot-writing-font-color: #666; /* --text-gray from your CSS */
+            --df-messenger-message-bot-writing-background: white;
+            --df-messenger-message-bot-writing-border-radius: 18px 18px 18px 0;
+
+            /* Chat window dimensions */
+            --df-messenger-chat-window-width: 500px; /* Increased from default 320px */
+            --df-messenger-chat-window-height: 620px; /* Slightly increased for better proportions */
+        }
+
+        /* Add box shadow to the chat window to match your UI */
+        df-messenger-chat {
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        /* Animation for chat opening */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Animation for the chat bubble */
+        df-messenger-chat-bubble:hover {
+            transform: scale(1.1);
+            transition: transform 0.2s;
+        }
     </style>
 </head>
 <body>
@@ -1004,387 +1099,360 @@
             </section>
         </main>
 
-        <!-- Chat Widget -->
-        <div class="chat-widget">
-            <div class="chat-bubble" id="chat-bubble">
-                🤖
-            </div>
-            <div class="chat-window" id="chat-window" style="display: none;">
-                <div class="chat-header">
-                    <div class="chat-header-title">
-                        <div class="bot-avatar"></div>
-                        <span>Asha AI Assistant</span>
-                    </div>
-                    <button 
-                        class="chat-icon-button" 
-                        id="close-chat"
-                        style="background: transparent; width: 30px; height: 30px; color: white;"
-                    >
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <div class="chat-messages" id="chat-messages">
-                    <div class="message-container">
-                        <div class="message-avatar bot-message-avatar"></div>
-                        <div class="message bot">
-                            Hi! I'm Asha, your AI assistant. How can I help you today?
+        <!-- HerKey Saarthi Chat Widget -->
+        <script src="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/df-messenger.js"></script>
+        <df-messenger
+          location="asia-south1"
+          project-id="gen-ai-guru-gdg-pune"
+          agent-id="b2c5e90b-20ef-4b0c-96d1-49537c77a2cf"
+          language-code="en"
+          max-query-length="-1">
+          <df-messenger-chat-bubble
+            chat-title="HerKey Saarthi"
+            chat-subtitle="Your AI-Assistant"
+            chat-icon="https://img.icons8.com/fluency/96/chatbot.png"
+            placeholder-text="Ask something about your career..."
+            bot-writing-text="Thinking...">
+          </df-messenger-chat-bubble>
+        </df-messenger>
+        <style>
+          df-messenger {
+            z-index: 1000;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            
+            /* Font settings */
+            --df-messenger-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            --df-messenger-font-size: 14px;
+            --df-messenger-font-color: #333; /* --text-dark from your CSS */
+            --df-messenger-chat-border-radius: 20px;
+            /* Chat bubble styling */
+            --df-messenger-chat-bubble-background: linear-gradient(135deg, #8e4777 0%, #9c3f92 100%);
+            --df-messenger-chat-bubble-size: 60px;
+            --df-messenger-chat-bubble-border-radius: 50%;
+            --df-messenger-chat-bubble-icon-color: white;
+            
+            /* Title bar styling */
+            --df-messenger-titlebar-background: linear-gradient(135deg, #8e4777 0%, #9c3f92 100%);
+            --df-messenger-titlebar-font-color: white;
+            --df-messenger-titlebar-title-font-size: 18px;
+            --df-messenger-titlebar-title-font-weight: 600;
+            --df-messenger-titlebar-subtitle-font-size: 14px;
+            --df-messenger-titlebar-subtitle-font-color: rgba(255, 255, 255, 0.9);
+            --df-messenger-titlebar-padding: 18px 15px;
+            
+            /* Chat box styling */
+            --df-messenger-chat-background: #f6f6f6; /* --gray-bg from your CSS */
+            --df-messenger-message-spacing: 15px;
+            --df-messenger-message-border-radius: 18px;
+            
+            /* Bot message styling */
+            --df-messenger-message-bot-background: white;
+            --df-messenger-message-bot-border-radius: 18px 18px 18px 0;
+            --df-messenger-message-bot-font-color: #333; /* --text-dark from your CSS */
+            --df-messenger-message-bot-font-weight: 400;
+            
+            /* User message styling */
+            --df-messenger-message-user-background: #8e4777; /* --primary from your CSS */
+            --df-messenger-message-user-border-radius: 18px 18px 0 18px;
+            --df-messenger-message-user-font-color: white;
+            --df-messenger-message-user-font-weight: 400;
+            
+            /* Input box styling */
+            --df-messenger-input-background: white;
+            --df-messenger-input-border-top: 1px solid #e0e0e0; /* --border-light from your CSS */
+            --df-messenger-input-box-border: 1px solid #e0e0e0;
+            --df-messenger-input-box-border-radius: 25px;
+            --df-messenger-input-box-padding: 12px 15px;
+            --df-messenger-input-box-focus-border: 1px solid #8e4777;
+            --df-messenger-input-font-color: #333;
+            --df-messenger-input-padding: 12px 15px;
+            
+            /* Send icon styling */
+            --df-messenger-send-icon-color: #7ac142; /* --green from your CSS */
+            --df-messenger-send-icon-color-hover: #69b132;
+            --df-messenger-send-icon-color-active: #7ac142;
+            
+            /* Bot writing animation */
+            --df-messenger-message-bot-writing-font-color: #666; /* --text-gray from your CSS */
+            --df-messenger-message-bot-writing-background: white;
+            --df-messenger-message-bot-writing-border-radius: 18px 18px 18px 0;
+
+            /* Chat window dimensions */
+            --df-messenger-chat-window-width: 500px; /* Increased from default 320px */
+            --df-messenger-chat-window-height: 620px; /* Slightly increased for better proportions */
+          }
+
+          /* Add box shadow to the chat window to match your UI */
+          df-messenger-chat {
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            animation: slideIn 0.3s ease-out;
+          }
+
+          /* Animation for chat opening */
+          @keyframes slideIn {
+            from {
+              opacity: 0;
+              transform: translateY(20px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+
+          /* Animation for the chat bubble */
+          df-messenger-chat-bubble:hover {
+            transform: scale(1.1);
+            transition: transform 0.2s;
+          }
+        </style>
+
+        <!-- Job data and chat widget functionality -->
+        <script>
+            // Sample job data
+            const jobsData = [
+                {
+                    id: 1,
+                    title: "Senior Project Manager",
+                    company: "Tech Innovations",
+                    location: "Bangalore",
+                    mode: "Remote",
+                    experience: "5-8 Yr",
+                    tags: ["Project Management", "Team Leadership", "Agile", "JIRA", "Scrum"],
+                    badge: "Returnship Friendly"
+                },
+                {
+                    id: 2,
+                    title: "UX Design Lead",
+                    company: "Creative Solutions",
+                    location: "Mumbai",
+                    mode: "Hybrid",
+                    experience: "3-6 Yr",
+                    tags: ["UI/UX", "Product Design", "Figma", "Sketch", "User Research"],
+                    badge: "Women Preferred"
+                },
+                {
+                    id: 3,
+                    title: "Frontend Developer",
+                    company: "WebTech Systems",
+                    location: "Pune",
+                    mode: "Remote",
+                    experience: "2-5 Yr",
+                    tags: ["React", "JavaScript", "HTML/CSS", "TypeScript", "Git"],
+                    badge: "Flexible Hours"
+                },
+                {
+                    id: 4,
+                    title: "Content Writer",
+                    company: "Digital Media",
+                    location: "Delhi",
+                    mode: "Work From Home",
+                    experience: "1-3 Yr",
+                    tags: ["Content Strategy", "SEO", "Editing", "Social Media", "Blogging"],
+                    badge: "Part Time Available"
+                },
+                {
+                    id: 5,
+                    title: "HR Manager",
+                    company: "Global Services",
+                    location: "Chennai",
+                    mode: "Hybrid",
+                    experience: "4-7 Yr",
+                    tags: ["Recruitment", "Employee Relations", "HR Policies", "Training", "Performance Management"],
+                    badge: "Returnship Friendly"
+                },
+                {
+                    id: 6,
+                    title: "Data Analyst",
+                    company: "Analytics Pro",
+                    location: "Bangalore",
+                    mode: "Full Time",
+                    experience: "2-4 Yr",
+                    tags: ["SQL", "Python", "Data Visualization", "Excel", "Power BI"],
+                    badge: "Women Preferred"
+                },
+                {
+                    id: 7,
+                    title: "Customer Success Manager",
+                    company: "SaaS Solutions",
+                    location: "Hyderabad",
+                    mode: "Part Time",
+                    experience: "3-5 Yr",
+                    tags: ["Client Management", "SaaS", "CRM", "Customer Retention", "Account Management"],
+                    badge: "Flexible Hours"
+                }
+            ];
+
+            // Sample events data
+            const eventsData = [
+                {
+                    id: 1,
+                    title: "Women in Tech Conference",
+                    date: "April 15, 2025",
+                    location: "Bangalore",
+                    description: "A conference dedicated to women in technology featuring keynote speakers, panel discussions, and networking opportunities."
+                },
+                {
+                    id: 2,
+                    title: "Return to Work Workshop",
+                    date: "April 22, 2025",
+                    location: "Virtual",
+                    description: "Workshop designed for women looking to return to the workforce after a career break. Learn strategies for resume building, interviewing, and skill enhancement."
+                },
+                {
+                    id: 3,
+                    title: "Leadership Summit",
+                    date: "May 5, 2025",
+                    location: "Mumbai",
+                    description: "Summit focusing on leadership skills and career advancement strategies for women professionals."
+                }
+            ];
+
+            // DOM Elements
+            const mainContent = document.getElementById('main-content');
+            const jobsSection = document.getElementById('jobs-section');
+            const showAllBtn = document.getElementById('show-all-btn');
+            const eventsNav = document.getElementById('events-nav');
+            const contactNav = document.getElementById('contact-nav');
+            const businessBtn = document.getElementById('business-btn');
+            const searchForm = document.getElementById('search-form');
+            const searchInput = document.getElementById('search-input');
+            const modeCards = document.querySelectorAll('.mode-card');
+
+            let activeWorkMode = null;
+            let bookmarkedJobs = [];
+            let currentView = 'jobs';
+
+            // Initialize the page
+            function init() {
+                renderJobs(jobsData);
+                setupEventListeners();
+            }
+
+            // Render job cards
+            function renderJobs(jobs) {
+                jobsSection.innerHTML = `<h2>${activeWorkMode ? `${activeWorkMode} Opportunities` : 'Women-friendly Jobs'} ${activeWorkMode ? `<span style="font-size: 14px; color: var(--text-gray); margin-left: 10px;">(${jobs.length} results)</span>` : ''}</h2>`;
+                
+                if (jobs.length === 0) {
+                    jobsSection.innerHTML += `
+                        <div class="job-card" style="padding: 25px; text-align: center;">
+                            <p style="color: var(--text-gray);">No jobs found matching your criteria.</p>
+                            <button 
+                                onclick="handleShowAllJobs()"
+                                style="margin-top: 15px; background: var(--primary); color: white; border: none; border-radius: 4px; padding: 8px 15px; cursor: pointer;"
+                            >
+                                View All Jobs
+                            </button>
                         </div>
-                    </div>
-                    <!-- Messages will be inserted here by JavaScript -->
-                </div>
-                <div class="chat-input">
-                    <input
-                        type="text"
-                        placeholder="Type your message..."
-                        id="chat-input-field"
-                    />
-                    <div class="chat-icons">
-                        <button
-                            class="chat-icon-button"
-                            id="voice-btn"
-                            title="Record audio"
-                        >
-                            <i class="fas fa-microphone"></i>
-                        </button>
-                        <button
-                            class="chat-icon-button"
-                            id="file-btn"
-                            title="Attach file"
-                        >
-                            <i class="fas fa-paperclip"></i>
-                        </button>
-                        <button 
-                            class="chat-icon-button send-button" 
-                            id="send-btn" 
-                            title="Send message"
-                        >
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </div>
-                    <input
-                        type="file"
-                        id="file-input"
-                        style="display: none;"
-                    />
-                </div>
-            </div>
-        </div>
-
-        <!-- Voice Modal -->
-        <div class="voice-modal-overlay" id="voice-modal" style="display: none;">
-            <div class="voice-modal-content">
-                <div class="voice-modal-header">
-                    <i class="fas fa-microphone-alt voice-modal-icon" style="font-size: 28px; color: var(--primary);"></i>
-                    <h2 class="voice-modal-title">Voice Recording</h2>
-                </div>
-                
-                <div class="voice-timer" id="voice-timer">
-                    0:00
-                </div>
-                
-                <div class="voice-transcript" id="voice-transcript">
-                    Start speaking...
-                </div>
-                
-                <div class="voice-controls">
-                    <button class="voice-button" id="start-recording">
-                        <i class="fas fa-microphone"></i>
-                    </button>
-                    <button class="voice-button" id="stop-recording" style="display: none;">
-                        <i class="fas fa-stop"></i>
-                    </button>
-                    <button class="voice-button" id="pause-recording" style="display: none;">
-                        <i class="fas fa-pause"></i>
-                    </button>
-                    <button class="voice-button reset" id="reset-recording">
-                        <i class="fas fa-redo-alt"></i>
-                    </button>
-                    <button class="voice-button send" id="send-recording" style="opacity: 0.5;">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- Dialogflow Messenger (hidden but functional) -->
-    <script src="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/df-messenger.js"></script>
-    <df-messenger location="asia-south1" 
-                  project-id="gen-ai-guru-gdg-pune" 
-                  agent-id="b2c5e90b-20ef-4b0c-96d1-49537c77a2cf" 
-                  language-code="en" 
-                  max-query-length="-1"
-                  style="display: none;">
-        <df-messenger-chat-bubble chat-title="Asha_AI_Chatbot">
-        </df-messenger-chat-bubble>
-    </df-messenger>
-
-    <!-- Job data and chat widget functionality -->
-    <script>
-        // Sample job data
-        const jobsData = [
-            {
-                id: 1,
-                title: "Senior Project Manager",
-                company: "Tech Innovations",
-                location: "Bangalore",
-                mode: "Remote",
-                experience: "5-8 Yr",
-                tags: ["Project Management", "Team Leadership", "Agile", "JIRA", "Scrum"],
-                badge: "Returnship Friendly"
-            },
-            {
-                id: 2,
-                title: "UX Design Lead",
-                company: "Creative Solutions",
-                location: "Mumbai",
-                mode: "Hybrid",
-                experience: "3-6 Yr",
-                tags: ["UI/UX", "Product Design", "Figma", "Sketch", "User Research"],
-                badge: "Women Preferred"
-            },
-            {
-                id: 3,
-                title: "Frontend Developer",
-                company: "WebTech Systems",
-                location: "Pune",
-                mode: "Remote",
-                experience: "2-5 Yr",
-                tags: ["React", "JavaScript", "HTML/CSS", "TypeScript", "Git"],
-                badge: "Flexible Hours"
-            },
-            {
-                id: 4,
-                title: "Content Writer",
-                company: "Digital Media",
-                location: "Delhi",
-                mode: "Work From Home",
-                experience: "1-3 Yr",
-                tags: ["Content Strategy", "SEO", "Editing", "Social Media", "Blogging"],
-                badge: "Part Time Available"
-            },
-            {
-                id: 5,
-                title: "HR Manager",
-                company: "Global Services",
-                location: "Chennai",
-                mode: "Hybrid",
-                experience: "4-7 Yr",
-                tags: ["Recruitment", "Employee Relations", "HR Policies", "Training", "Performance Management"],
-                badge: "Returnship Friendly"
-            },
-            {
-                id: 6,
-                title: "Data Analyst",
-                company: "Analytics Pro",
-                location: "Bangalore",
-                mode: "Full Time",
-                experience: "2-4 Yr",
-                tags: ["SQL", "Python", "Data Visualization", "Excel", "Power BI"],
-                badge: "Women Preferred"
-            },
-            {
-                id: 7,
-                title: "Customer Success Manager",
-                company: "SaaS Solutions",
-                location: "Hyderabad",
-                mode: "Part Time",
-                experience: "3-5 Yr",
-                tags: ["Client Management", "SaaS", "CRM", "Customer Retention", "Account Management"],
-                badge: "Flexible Hours"
-            }
-        ];
-
-        // Sample events data
-        const eventsData = [
-            {
-                id: 1,
-                title: "Women in Tech Conference",
-                date: "April 15, 2025",
-                location: "Bangalore",
-                description: "A conference dedicated to women in technology featuring keynote speakers, panel discussions, and networking opportunities."
-            },
-            {
-                id: 2,
-                title: "Return to Work Workshop",
-                date: "April 22, 2025",
-                location: "Virtual",
-                description: "Workshop designed for women looking to return to the workforce after a career break. Learn strategies for resume building, interviewing, and skill enhancement."
-            },
-            {
-                id: 3,
-                title: "Leadership Summit",
-                date: "May 5, 2025",
-                location: "Mumbai",
-                description: "Summit focusing on leadership skills and career advancement strategies for women professionals."
-            }
-        ];
-
-        // DOM Elements
-        const mainContent = document.getElementById('main-content');
-        const jobsSection = document.getElementById('jobs-section');
-        const showAllBtn = document.getElementById('show-all-btn');
-        const eventsNav = document.getElementById('events-nav');
-        const contactNav = document.getElementById('contact-nav');
-        const businessBtn = document.getElementById('business-btn');
-        const searchForm = document.getElementById('search-form');
-        const searchInput = document.getElementById('search-input');
-        const modeCards = document.querySelectorAll('.mode-card');
-
-        // Chat widget elements
-        const chatBubble = document.getElementById('chat-bubble');
-        const chatWindow = document.getElementById('chat-window');
-        const closeChat = document.getElementById('close-chat');
-        const chatMessages = document.getElementById('chat-messages');
-        const chatInputField = document.getElementById('chat-input-field');
-        const sendBtn = document.getElementById('send-btn');
-        const voiceBtn = document.getElementById('voice-btn');
-        const fileBtn = document.getElementById('file-btn');
-        const fileInput = document.getElementById('file-input');
-
-        // Voice modal elements
-        const voiceModal = document.getElementById('voice-modal');
-        const voiceTimer = document.getElementById('voice-timer');
-        const voiceTranscript = document.getElementById('voice-transcript');
-        const startRecording = document.getElementById('start-recording');
-        const stopRecording = document.getElementById('stop-recording');
-        const pauseRecording = document.getElementById('pause-recording');
-        const resetRecording = document.getElementById('reset-recording');
-        const sendRecording = document.getElementById('send-recording');
-
-        let activeWorkMode = null;
-        let bookmarkedJobs = [];
-        let currentView = 'jobs';
-        let isVoiceRecording = false;
-        let timerInterval = null;
-        let timerSeconds = 0;
-
-        // Initialize the page
-        function init() {
-            renderJobs(jobsData);
-            setupEventListeners();
-        }
-
-        // Render job cards
-        function renderJobs(jobs) {
-            jobsSection.innerHTML = `<h2>${activeWorkMode ? `${activeWorkMode} Opportunities` : 'Women-friendly Jobs'} ${activeWorkMode ? `<span style="font-size: 14px; color: var(--text-gray); margin-left: 10px;">(${jobs.length} results)</span>` : ''}</h2>`;
-            
-            if (jobs.length === 0) {
-                jobsSection.innerHTML += `
-                    <div class="job-card" style="padding: 25px; text-align: center;">
-                        <p style="color: var(--text-gray);">No jobs found matching your criteria.</p>
-                        <button 
-                            onclick="handleShowAllJobs()"
-                            style="margin-top: 15px; background: var(--primary); color: white; border: none; border-radius: 4px; padding: 8px 15px; cursor: pointer;"
-                        >
-                            View All Jobs
-                        </button>
-                    </div>
-                `;
-                return;
-            }
-            
-            jobs.forEach(job => {
-                const jobCard = document.createElement('div');
-                jobCard.className = 'job-card';
-                jobCard.innerHTML = `
-                    <div class="company-logo">
-                        <span class="herkey-job-logo"></span>
-                    </div>
-                    <div class="job-info">
-                        <h3 class="job-title">${job.title}</h3>
-                        <h4 class="company-name">${job.company}</h4>
-                        <p class="job-location">${job.location} | ${job.mode} | ${job.experience}</p>
-                        <p class="job-tags">${job.tags.slice(0, 3).join(' • ')} ${job.tags.length > 3 ? `+${job.tags.length - 3}` : ''}</p>
-                        <span class="newly-added">${job.badge}</span>
-                    </div>
-                    <div class="job-actions">
-                        <i class="far fa-bookmark bookmark-btn ${bookmarkedJobs.includes(job.id) ? 'fas' : 'far'}" data-id="${job.id}"></i>
-                        <button class="apply-btn" data-title="${job.title}">
-                            <i class="fas fa-bolt lightning-icon"></i>
-                            Easy Apply
-                        </button>
-                    </div>
-                `;
-                jobsSection.appendChild(jobCard);
-            });
-
-            // Add event listeners to the bookmark buttons and apply buttons
-            document.querySelectorAll('.bookmark-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const jobId = parseInt(btn.dataset.id);
-                    handleBookmark(jobId, btn);
-                });
-            });
-
-            document.querySelectorAll('.apply-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const jobTitle = btn.dataset.title;
-                    handleApply(jobTitle);
-                });
-            });
-        }
-
-        // Setup event listeners
-        function setupEventListeners() {
-            // Mode cards
-            modeCards.forEach(card => {
-                card.addEventListener('click', () => {
-                    const mode = card.dataset.mode;
-                    handleWorkModeFilter(mode, card);
-                });
-            });
-
-            // Navigation
-            eventsNav.addEventListener('click', handleEventsClick);
-            contactNav.addEventListener('click', handleContactClick);
-            businessBtn.addEventListener('click', handleBusinessClick);
-            showAllBtn.addEventListener('click', handleShowAllJobs);
-
-            // Search form
-            searchForm.addEventListener('submit', handleSearch);
-
-            // Chat widget
-            chatBubble.addEventListener('click', toggleChat);
-            closeChat.addEventListener('click', () => {
-                chatWindow.style.display = 'none';
-            });
-            
-            sendBtn.addEventListener('click', handleSendMessage);
-            chatInputField.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    handleSendMessage();
+                    `;
+                    return;
                 }
-            });
+                
+                jobs.forEach(job => {
+                    const jobCard = document.createElement('div');
+                    jobCard.className = 'job-card';
+                    jobCard.innerHTML = `
+                        <div class="company-logo">
+                            <span class="herkey-job-logo"></span>
+                        </div>
+                        <div class="job-info">
+                            <h3 class="job-title">${job.title}</h3>
+                            <h4 class="company-name">${job.company}</h4>
+                            <p class="job-location">${job.location} | ${job.mode} | ${job.experience}</p>
+                            <p class="job-tags">${job.tags.slice(0, 3).join(' • ')} ${job.tags.length > 3 ? `+${job.tags.length - 3}` : ''}</p>
+                            <span class="newly-added">${job.badge}</span>
+                        </div>
+                        <div class="job-actions">
+                            <i class="far fa-bookmark bookmark-btn ${bookmarkedJobs.includes(job.id) ? 'fas' : 'far'}" data-id="${job.id}"></i>
+                            <button class="apply-btn" data-title="${job.title}">
+                                <i class="fas fa-bolt lightning-icon"></i>
+                                Easy Apply
+                            </button>
+                        </div>
+                    `;
+                    jobsSection.appendChild(jobCard);
+                });
 
-            voiceBtn.addEventListener('click', openVoiceModal);
-            fileBtn.addEventListener('click', () => {
-                fileInput.click();
-            });
-            
-            fileInput.addEventListener('change', handleFileSelect);
+                // Add event listeners to the bookmark buttons and apply buttons
+                document.querySelectorAll('.bookmark-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const jobId = parseInt(btn.dataset.id);
+                        handleBookmark(jobId, btn);
+                    });
+                });
 
-            // Voice modal
-            document.addEventListener('click', (e) => {
-                if (e.target.classList.contains('voice-modal-overlay')) {
-                    closeVoiceModal();
+                document.querySelectorAll('.apply-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const jobTitle = btn.dataset.title;
+                        handleApply(jobTitle);
+                    });
+                });
+            }
+
+            // Setup event listeners
+            function setupEventListeners() {
+                // Mode cards
+                modeCards.forEach(card => {
+                    card.addEventListener('click', () => {
+                        const mode = card.dataset.mode;
+                        handleWorkModeFilter(mode, card);
+                    });
+                });
+
+                // Navigation
+                eventsNav.addEventListener('click', handleEventsClick);
+                contactNav.addEventListener('click', handleContactClick);
+                businessBtn.addEventListener('click', handleBusinessClick);
+                showAllBtn.addEventListener('click', handleShowAllJobs);
+
+                // Search form
+                searchForm.addEventListener('submit', handleSearch);
+            }
+
+            // Filter jobs by work mode
+            function handleWorkModeFilter(mode, clickedCard) {
+                let filteredResults;
+                
+                if (activeWorkMode === mode) {
+                    // If clicking the same mode, clear the filter
+                    activeWorkMode = null;
+                    showAllBtn.style.display = 'none';
+                    
+                    // Remove active class from all cards
+                    modeCards.forEach(card => {
+                        card.style.border = 'none';
+                    });
+                    
+                    filteredResults = jobsData;
+                } else {
+                    activeWorkMode = mode;
+                    showAllBtn.style.display = 'inline-block';
+                    
+                    // Add active class to clicked card, remove from others
+                    modeCards.forEach(card => {
+                        card.style.border = card.dataset.mode === mode ? '2px solid var(--primary)' : 'none';
+                    });
+                    
+                    // Filter jobs by the selected work mode
+                    if (mode === "Work From Home") {
+                        filteredResults = jobsData.filter(job => 
+                            job.mode === "Remote" || job.mode === "Work From Home"
+                        );
+                    } else {
+                        filteredResults = jobsData.filter(job => job.mode === mode);
+                    }
                 }
-            });
+                
+                currentView = 'jobs';
+                renderMainContent();
+                renderJobs(filteredResults);
+            }
 
-            startRecording.addEventListener('click', handleStartRecording);
-            stopRecording.addEventListener('click', handleStopRecording);
-            pauseRecording.addEventListener('click', handlePauseRecording);
-            resetRecording.addEventListener('click', handleResetRecording);
-            sendRecording.addEventListener('click', handleSendRecording);
-        }
-
-        // Filter jobs by work mode
-        function handleWorkModeFilter(mode, clickedCard) {
-            let filteredResults;
-            
-            if (activeWorkMode === mode) {
-                // If clicking the same mode, clear the filter
+            // Show all jobs
+            function handleShowAllJobs() {
                 activeWorkMode = null;
                 showAllBtn.style.display = 'none';
                 
@@ -1393,489 +1461,287 @@
                     card.style.border = 'none';
                 });
                 
-                filteredResults = jobsData;
-            } else {
-                activeWorkMode = mode;
-                showAllBtn.style.display = 'inline-block';
-                
-                // Add active class to clicked card, remove from others
-                modeCards.forEach(card => {
-                    card.style.border = card.dataset.mode === mode ? '2px solid var(--primary)' : 'none';
-                });
-                
-                // Filter jobs by the selected work mode
-                if (mode === "Work From Home") {
-                    filteredResults = jobsData.filter(job => 
-                        job.mode === "Remote" || job.mode === "Work From Home"
-                    );
-                } else {
-                    filteredResults = jobsData.filter(job => job.mode === mode);
-                }
-            }
-            
-            currentView = 'jobs';
-            renderMainContent();
-            renderJobs(filteredResults);
-        }
-
-        // Show all jobs
-        function handleShowAllJobs() {
-            activeWorkMode = null;
-            showAllBtn.style.display = 'none';
-            
-            // Remove active class from all cards
-            modeCards.forEach(card => {
-                card.style.border = 'none';
-            });
-            
-            currentView = 'jobs';
-            renderMainContent();
-            renderJobs(jobsData);
-        }
-
-        // Handle search
-        function handleSearch(e) {
-            e.preventDefault();
-            if (searchInput.value.trim()) {
-                const searchTerm = searchInput.value.toLowerCase();
-                const results = jobsData.filter(job => 
-                    job.title.toLowerCase().includes(searchTerm) || 
-                    job.company.toLowerCase().includes(searchTerm) ||
-                    job.tags.some(tag => tag.toLowerCase().includes(searchTerm))
-                );
-                
-                activeWorkMode = null;
-                showAllBtn.style.display = 'inline-block';
-                
-                // Remove active class from all cards
-                modeCards.forEach(card => {
-                    card.style.border = 'none';
-                });
-                
                 currentView = 'jobs';
                 renderMainContent();
-                renderJobs(results);
+                renderJobs(jobsData);
             }
-        }
 
-        // Handle bookmark button click
-        function handleBookmark(jobId, btn) {
-            if (bookmarkedJobs.includes(jobId)) {
-                bookmarkedJobs = bookmarkedJobs.filter(id => id !== jobId);
-                btn.classList.remove('fas');
-                btn.classList.add('far');
-            } else {
-                bookmarkedJobs.push(jobId);
-                btn.classList.remove('far');
-                btn.classList.add('fas');
-            }
-        }
-
-        // Handle apply button click
-        function handleApply(jobTitle) {
-            const userReady = confirm(`You are about to apply for: ${jobTitle}\n\nDo you want to continue?`);
-            if (userReady) {
-                const thankYouMessage = `Thank you for applying to the ${jobTitle} position! Your application has been submitted successfully. We will review your profile and get back to you soon.`;
-                alert(thankYouMessage);
-            }
-        }
-
-        // Handle events click
-        function handleEventsClick() {
-            currentView = 'events';
-            renderMainContent();
-        }
-
-        // Handle contact click
-        function handleContactClick() {
-            currentView = 'contact';
-            renderMainContent();
-        }
-
-        // Handle business click
-        function handleBusinessClick() {
-            currentView = 'business';
-            renderMainContent();
-        }
-
-        // Render main content based on current view
-        function renderMainContent() {
-            switch (currentView) {
-                case 'jobs':
-                    // Already handled by renderJobs
-                    break;
-                case 'events':
-                    renderEvents();
-                    break;
-                case 'contact':
-                    renderContact();
-                    break;
-                case 'business':
-                    renderBusiness();
-                    break;
-            }
-        }
-
-        // Render events view
-        function renderEvents() {
-            mainContent.innerHTML = `
-                <section class="featured-jobs">
-                    <div style="display: flex; align-items: center; margin-bottom: 20px;">
-                        <button 
-                            onclick="handleShowAllJobs()"
-                            style="margin-right: 15px; background: transparent; border: none; font-size: 20px; cursor: pointer; color: var(--primary);"
-                        >
-                            ←
-                        </button>
-                        <h2>Upcoming Events</h2>
-                    </div>
+            // Handle search
+            function handleSearch(e) {
+                e.preventDefault();
+                if (searchInput.value.trim()) {
+                    const searchTerm = searchInput.value.toLowerCase();
+                    const results = jobsData.filter(job => 
+                        job.title.toLowerCase().includes(searchTerm) || 
+                        job.company.toLowerCase().includes(searchTerm) ||
+                        job.tags.some(tag => tag.toLowerCase().includes(searchTerm))
+                    );
                     
-                    ${eventsData.map(event => `
+                    activeWorkMode = null;
+                    showAllBtn.style.display = 'inline-block';
+                    
+                    // Remove active class from all cards
+                    modeCards.forEach(card => {
+                        card.style.border = 'none';
+                    });
+                    
+                    currentView = 'jobs';
+                    renderMainContent();
+                    renderJobs(results);
+                }
+            }
+
+            // Handle bookmark button click
+            function handleBookmark(jobId, btn) {
+                if (bookmarkedJobs.includes(jobId)) {
+                    bookmarkedJobs = bookmarkedJobs.filter(id => id !== jobId);
+                    btn.classList.remove('fas');
+                    btn.classList.add('far');
+                } else {
+                    bookmarkedJobs.push(jobId);
+                    btn.classList.remove('far');
+                    btn.classList.add('fas');
+                }
+            }
+
+            // Handle apply button click
+            function handleApply(jobTitle) {
+                const userReady = confirm(`You are about to apply for: ${jobTitle}\n\nDo you want to continue?`);
+                if (userReady) {
+                    const thankYouMessage = `Thank you for applying to the ${jobTitle} position! Your application has been submitted successfully. We will review your profile and get back to you soon.`;
+                    alert(thankYouMessage);
+                }
+            }
+
+            // Handle events click
+            function handleEventsClick() {
+                currentView = 'events';
+                renderMainContent();
+            }
+
+            // Handle contact click
+            function handleContactClick() {
+                currentView = 'contact';
+                renderMainContent();
+            }
+
+            // Handle business click
+            function handleBusinessClick() {
+                currentView = 'business';
+                renderMainContent();
+            }
+
+            // Render main content based on current view
+            function renderMainContent() {
+                switch (currentView) {
+                    case 'jobs':
+                        // Already handled by renderJobs
+                        break;
+                    case 'events':
+                        renderEvents();
+                        break;
+                    case 'contact':
+                        renderContact();
+                        break;
+                    case 'business':
+                        renderBusiness();
+                        break;
+                }
+            }
+
+            // Render events view
+            function renderEvents() {
+                mainContent.innerHTML = `
+                    <section class="featured-jobs">
+                        <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                            <button 
+                                onclick="handleShowAllJobs()"
+                                style="margin-right: 15px; background: transparent; border: none; font-size: 20px; cursor: pointer; color: var(--primary);"
+                            >
+                                ←
+                            </button>
+                            <h2>Upcoming Events</h2>
+                        </div>
+                        
+                        ${eventsData.map(event => `
+                            <div class="job-card" style="padding: 25px;">
+                                <div class="job-info">
+                                    <h3 class="job-title">${event.title}</h3>
+                                    <p style="color: var(--purple-text); margin-bottom: 10px;">
+                                        <strong>Date:</strong> ${event.date} | <strong>Location:</strong> ${event.location}
+                                    </p>
+                                    <p style="color: var(--text-gray); margin-bottom: 20px;">
+                                        ${event.description}
+                                    </p>
+                                    <button 
+                                        class="apply-btn" 
+                                        style="align-self: flex-start;"
+                                        onclick="alert('You\\'ve successfully registered for ${event.title}. Check your email for the confirmation.');"
+                                    >
+                                        Register Now
+                                    </button>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </section>
+                `;
+            }
+
+            // Render contact view
+            function renderContact() {
+                mainContent.innerHTML = `
+                    <section class="featured-jobs">
+                        <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                            <button 
+                                onclick="handleShowAllJobs()"
+                                style="margin-right: 15px; background: transparent; border: none; font-size: 20px; cursor: pointer; color: var(--primary);"
+                            >
+                                ←
+                            </button>
+                            <h2>Contact Us</h2>
+                        </div>
+                        
                         <div class="job-card" style="padding: 25px;">
                             <div class="job-info">
-                                <h3 class="job-title">${event.title}</h3>
-                                <p style="color: var(--purple-text); margin-bottom: 10px;">
-                                    <strong>Date:</strong> ${event.date} | <strong>Location:</strong> ${event.location}
-                                </p>
+                                <h3 class="job-title" style="margin-bottom: 20px;">Get in Touch with JobsForHer</h3>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <h4 style="color: var(--purple-text); margin-bottom: 10px;">Email</h4>
+                                    <p>support@jobsforher.com</p>
+                                </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <h4 style="color: var(--purple-text); margin-bottom: 10px;">Phone</h4>
+                                    <p>+91-8000-000-000</p>
+                                </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <h4 style="color: var(--purple-text); margin-bottom: 10px;">Address</h4>
+                                    <p>JobsForHer HQ, 123 Tech Park, Koramangala</p>
+                                    <p>Bangalore, Karnataka 560034</p>
+                                    <p>India</p>
+                                </div>
+                                
+                                <div style="margin-top: 30px;">
+                                    <h4 style="color: var(--purple-text); margin-bottom: 15px;">Send us a message</h4>
+                                    <form id="contact-form">
+                                        <div style="margin-bottom: 15px;">
+                                            <input 
+                                                type="text" 
+                                                placeholder="Your Name" 
+                                                required
+                                                style="width: 100%; padding: 10px; border: 1px solid var(--border-light); border-radius: 4px;"
+                                            />
+                                        </div>
+                                        <div style="margin-bottom: 15px;">
+                                            <input 
+                                                type="email" 
+                                                placeholder="Your Email" 
+                                                required
+                                                style="width: 100%; padding: 10px; border: 1px solid var(--border-light); border-radius: 4px;"
+                                            />
+                                        </div>
+                                        <div style="margin-bottom: 15px;">
+                                            <textarea 
+                                                placeholder="Your Message" 
+                                                required
+                                                rows="5"
+                                                style="width: 100%; padding: 10px; border: 1px solid var(--border-light); border-radius: 4px; font-family: inherit;"
+                                            ></textarea>
+                                        </div>
+                                        <button 
+                                            type="submit"
+                                            class="apply-btn" 
+                                            style="width: 100%;"
+                                        >
+                                            Send Message
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                `;
+                
+                // Add submit handler for contact form
+                document.getElementById('contact-form').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    alert("Thank you for your message! We'll get back to you soon.");
+                    handleShowAllJobs();
+                });
+            }
+
+            // Render business view
+            function renderBusiness() {
+                mainContent.innerHTML = `
+                    <section class="featured-jobs">
+                        <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                            <button 
+                                onclick="handleShowAllJobs()"
+                                style="margin-right: 15px; background: transparent; border: none; font-size: 20px; cursor: pointer; color: var(--primary);"
+                            >
+                                ←
+                            </button>
+                            <h2>JobsForHer for Employers</h2>
+                        </div>
+                        
+                        <div class="job-card" style="padding: 25px;">
+                            <div class="job-info">
+                                <h3 class="job-title" style="margin-bottom: 15px;">Connect with talented women professionals</h3>
                                 <p style="color: var(--text-gray); margin-bottom: 20px;">
-                                    ${event.description}
+                                    JobsForHer helps companies hire skilled and qualified women professionals. Our platform offers services to post jobs, search for candidates, organize hiring events, and build diversity in your organization.
                                 </p>
+                                
+                                <div style="display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 20px;">
+                                    <div style="flex: 1 1 220px; border: 1px solid var(--border-light); border-radius: 8px; padding: 15px;">
+                                        <h4 style="color: var(--purple-text); margin-bottom: 10px;">Job Postings</h4>
+                                        <p style="font-size: 14px; color: var(--text-gray);">
+                                            Post jobs specifically targeting women candidates returning to work, women in tech, and more.
+                                        </p>
+                                    </div>
+                                    
+                                    <div style="flex: 1 1 220px; border: 1px solid var(--border-light); border-radius: 8px; padding: 15px;">
+                                        <h4 style="color: var(--purple-text); margin-bottom: 10px;">Candidate Search</h4>
+                                        <p style="font-size: 14px; color: var(--text-gray);">
+                                            Access our database of qualified women candidates and filter by skills, experience, and more.
+                                        </p>
+                                    </div>
+                                    
+                                    <div style="flex: 1 1 220px; border: 1px solid var(--border-light); border-radius: 8px; padding: 15px;">
+                                        <h4 style="color: var(--purple-text); margin-bottom: 10px;">Diversity Initiatives</h4>
+                                        <p style="font-size: 14px; color: var(--text-gray);">
+                                            Partner with us on returnship programs, women in leadership initiatives, and diversity hiring.
+                                        </p>
+                                    </div>
+                                </div>
+                                
                                 <button 
                                     class="apply-btn" 
                                     style="align-self: flex-start;"
-                                    onclick="alert('You\\'ve successfully registered for ${event.title}. Check your email for the confirmation.');"
+                                    onclick="getBusinessEmail()"
                                 >
-                                    Register Now
+                                    Get Started
                                 </button>
                             </div>
                         </div>
-                    `).join('')}
-                </section>
-            `;
-        }
-
-        // Render contact view
-        function renderContact() {
-            mainContent.innerHTML = `
-                <section class="featured-jobs">
-                    <div style="display: flex; align-items: center; margin-bottom: 20px;">
-                        <button 
-                            onclick="handleShowAllJobs()"
-                            style="margin-right: 15px; background: transparent; border: none; font-size: 20px; cursor: pointer; color: var(--primary);"
-                        >
-                            ←
-                        </button>
-                        <h2>Contact Us</h2>
-                    </div>
-                    
-                    <div class="job-card" style="padding: 25px;">
-                        <div class="job-info">
-                            <h3 class="job-title" style="margin-bottom: 20px;">Get in Touch with JobsForHer</h3>
-                            
-                            <div style="margin-bottom: 20px;">
-                                <h4 style="color: var(--purple-text); margin-bottom: 10px;">Email</h4>
-                                <p>support@jobsforher.com</p>
-                            </div>
-                            
-                            <div style="margin-bottom: 20px;">
-                                <h4 style="color: var(--purple-text); margin-bottom: 10px;">Phone</h4>
-                                <p>+91-8000-000-000</p>
-                            </div>
-                            
-                            <div style="margin-bottom: 20px;">
-                                <h4 style="color: var(--purple-text); margin-bottom: 10px;">Address</h4>
-                                <p>JobsForHer HQ, 123 Tech Park, Koramangala</p>
-                                <p>Bangalore, Karnataka 560034</p>
-                                <p>India</p>
-                            </div>
-                            
-                            <div style="margin-top: 30px;">
-                                <h4 style="color: var(--purple-text); margin-bottom: 15px;">Send us a message</h4>
-                                <form id="contact-form">
-                                    <div style="margin-bottom: 15px;">
-                                        <input 
-                                            type="text" 
-                                            placeholder="Your Name" 
-                                            required
-                                            style="width: 100%; padding: 10px; border: 1px solid var(--border-light); border-radius: 4px;"
-                                        />
-                                    </div>
-                                    <div style="margin-bottom: 15px;">
-                                        <input 
-                                            type="email" 
-                                            placeholder="Your Email" 
-                                            required
-                                            style="width: 100%; padding: 10px; border: 1px solid var(--border-light); border-radius: 4px;"
-                                        />
-                                    </div>
-                                    <div style="margin-bottom: 15px;">
-                                        <textarea 
-                                            placeholder="Your Message" 
-                                            required
-                                            rows="5"
-                                            style="width: 100%; padding: 10px; border: 1px solid var(--border-light); border-radius: 4px; font-family: inherit;"
-                                        ></textarea>
-                                    </div>
-                                    <button 
-                                        type="submit"
-                                        class="apply-btn" 
-                                        style="width: 100%;"
-                                    >
-                                        Send Message
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            `;
-            
-            // Add submit handler for contact form
-            document.getElementById('contact-form').addEventListener('submit', (e) => {
-                e.preventDefault();
-                alert("Thank you for your message! We'll get back to you soon.");
-                handleShowAllJobs();
-            });
-        }
-
-        // Render business view
-        function renderBusiness() {
-            mainContent.innerHTML = `
-                <section class="featured-jobs">
-                    <div style="display: flex; align-items: center; margin-bottom: 20px;">
-                        <button 
-                            onclick="handleShowAllJobs()"
-                            style="margin-right: 15px; background: transparent; border: none; font-size: 20px; cursor: pointer; color: var(--primary);"
-                        >
-                            ←
-                        </button>
-                        <h2>JobsForHer for Employers</h2>
-                    </div>
-                    
-                    <div class="job-card" style="padding: 25px;">
-                        <div class="job-info">
-                            <h3 class="job-title" style="margin-bottom: 15px;">Connect with talented women professionals</h3>
-                            <p style="color: var(--text-gray); margin-bottom: 20px;">
-                                JobsForHer helps companies hire skilled and qualified women professionals. Our platform offers services to post jobs, search for candidates, organize hiring events, and build diversity in your organization.
-                            </p>
-                            
-                            <div style="display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 20px;">
-                                <div style="flex: 1 1 220px; border: 1px solid var(--border-light); border-radius: 8px; padding: 15px;">
-                                    <h4 style="color: var(--purple-text); margin-bottom: 10px;">Job Postings</h4>
-                                    <p style="font-size: 14px; color: var(--text-gray);">
-                                        Post jobs specifically targeting women candidates returning to work, women in tech, and more.
-                                    </p>
-                                </div>
-                                
-                                <div style="flex: 1 1 220px; border: 1px solid var(--border-light); border-radius: 8px; padding: 15px;">
-                                    <h4 style="color: var(--purple-text); margin-bottom: 10px;">Candidate Search</h4>
-                                    <p style="font-size: 14px; color: var(--text-gray);">
-                                        Access our database of qualified women candidates and filter by skills, experience, and more.
-                                    </p>
-                                </div>
-                                
-                                <div style="flex: 1 1 220px; border: 1px solid var(--border-light); border-radius: 8px; padding: 15px;">
-                                    <h4 style="color: var(--purple-text); margin-bottom: 10px;">Diversity Initiatives</h4>
-                                    <p style="font-size: 14px; color: var(--text-gray);">
-                                        Partner with us on returnship programs, women in leadership initiatives, and diversity hiring.
-                                    </p>
-                                </div>
-                            </div>
-                            
-                            <button 
-                                class="apply-btn" 
-                                style="align-self: flex-start;"
-                                onclick="getBusinessEmail()"
-                            >
-                                Get Started
-                            </button>
-                        </div>
-                    </div>
-                </section>
-            `;
-        }
-
-        function getBusinessEmail() {
-            const email = prompt("Enter your business email to get more information:");
-            if (email) {
-                alert(`Thank you for your interest! We'll send more information about our employer services to ${email} shortly.`);
-                handleShowAllJobs();
+                    </section>
+                `;
             }
-        }
 
-        // Chat functionality
-        function toggleChat() {
-            if (chatWindow.style.display === 'none' || chatWindow.style.display === '') {
-                chatWindow.style.display = 'flex';
-            } else {
-                chatWindow.style.display = 'none';
+            function getBusinessEmail() {
+                const email = prompt("Enter your business email to get more information:");
+                if (email) {
+                    alert(`Thank you for your interest! We'll send more information about our employer services to ${email} shortly.`);
+                    handleShowAllJobs();
+                }
             }
-        }
 
-        function handleSendMessage() {
-            const message = chatInputField.value.trim();
-            if (message) {
-                // Add user message
-                addMessage(message, true);
-                chatInputField.value = '';
-                
-                // Send to dialogflow messenger
-                // This sets up the integration with the existing Dialogflow messenger
-                const dfMessenger = document.querySelector('df-messenger');
-                const dfMessengerChat = dfMessenger.shadowRoot.querySelector('df-messenger-chat');
-                const userInput = dfMessengerChat.shadowRoot.querySelector('df-messenger-user-input');
-                const input = userInput.shadowRoot.querySelector('input');
-                const sendButton = userInput.shadowRoot.querySelector('button');
-                
-                // Set input value and dispatch events
-                input.value = message;
-                input.dispatchEvent(new Event('input', { bubbles: true }));
-                sendButton.click();
-                
-                // Listen for response
-                setTimeout(() => {
-                    const messages = dfMessengerChat.shadowRoot.querySelector('df-message-list');
-                    const lastBotMessage = messages.shadowRoot.querySelector('df-response-message:last-child');
-                    
-                    if (lastBotMessage) {
-                        const botText = lastBotMessage.shadowRoot.querySelector('.message-text').textContent;
-                        addMessage(botText, false);
-                    } else {
-                        // Fallback response if cannot get from Dialogflow
-                        addMessage("I'm here to help with your career questions. What would you like to know about jobs, skills, or opportunities?", false);
-                    }
-                }, 1000);
-            }
-        }
+            // Make handleShowAllJobs globally available
+            window.handleShowAllJobs = handleShowAllJobs;
+            window.getBusinessEmail = getBusinessEmail;
 
-        function addMessage(text, isUser) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message-container ${isUser ? 'user' : ''}`;
-            
-            messageDiv.innerHTML = `
-                <div class="message-avatar ${isUser ? 'user-avatar' : 'bot-message-avatar'}"></div>
-                <div class="message ${isUser ? 'user' : 'bot'}">${text}</div>
-            `;
-            
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        function handleFileSelect(event) {
-            const file = event.target.files[0];
-            if (file) {
-                addMessage(`Attached file: ${file.name}`, true);
-                
-                // Simulate a response
-                setTimeout(() => {
-                    addMessage(`I've received your file "${file.name}". How can I help you with this?`, false);
-                }, 1000);
-                
-                // Clear the input for future uploads
-                fileInput.value = '';
-            }
-        }
-
-        // Voice modal functionality
-        function openVoiceModal() {
-            voiceModal.style.display = 'flex';
-            voiceTranscript.textContent = 'Start speaking...';
-            voiceTimer.textContent = '0:00';
-            timerSeconds = 0;
-            
-            // Make sure chat is visible
-            chatWindow.style.display = 'flex';
-        }
-
-        function closeVoiceModal() {
-            voiceModal.style.display = 'none';
-            handleResetRecording();
-        }
-
-        function handleStartRecording() {
-            // In a real implementation, this would use the Web Speech API
-            isVoiceRecording = true;
-            startRecording.style.display = 'none';
-            stopRecording.style.display = 'inline-flex';
-            pauseRecording.style.display = 'inline-flex';
-            
-            // Start timer
-            timerInterval = setInterval(() => {
-                timerSeconds++;
-                const minutes = Math.floor(timerSeconds / 60);
-                const seconds = timerSeconds % 60;
-                voiceTimer.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-            }, 1000);
-            
-            // Simulate voice recognition
-            setTimeout(() => {
-                voiceTranscript.textContent = 'Tell me about job opportunities for women in tech...';
-                sendRecording.style.opacity = '1';
-            }, 3000);
-        }
-
-        function handleStopRecording() {
-            isVoiceRecording = false;
-            startRecording.style.display = 'inline-flex';
-            stopRecording.style.display = 'none';
-            pauseRecording.style.display = 'none';
-            
-            clearInterval(timerInterval);
-        }
-
-        function handlePauseRecording() {
-            // Toggle pause state
-            if (pauseRecording.innerHTML.includes('fa-pause')) {
-                // Pause
-                pauseRecording.innerHTML = '<i class="fas fa-play"></i>';
-                clearInterval(timerInterval);
-            } else {
-                // Resume
-                pauseRecording.innerHTML = '<i class="fas fa-pause"></i>';
-                timerInterval = setInterval(() => {
-                    timerSeconds++;
-                    const minutes = Math.floor(timerSeconds / 60);
-                    const seconds = timerSeconds % 60;
-                    voiceTimer.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-                }, 1000);
-            }
-        }
-
-        function handleResetRecording() {
-            isVoiceRecording = false;
-            startRecording.style.display = 'inline-flex';
-            stopRecording.style.display = 'none';
-            pauseRecording.style.display = 'none';
-            pauseRecording.innerHTML = '<i class="fas fa-pause"></i>';
-            
-            clearInterval(timerInterval);
-            timerSeconds = 0;
-            voiceTimer.textContent = '0:00';
-            voiceTranscript.textContent = 'Start speaking...';
-            sendRecording.style.opacity = '0.5';
-        }
-
-        function handleSendRecording() {
-            if (voiceTranscript.textContent !== 'Start speaking...') {
-                const text = voiceTranscript.textContent;
-                closeVoiceModal();
-                
-                // Add to chat
-                addMessage(text, true);
-                
-                // Simulate response
-                setTimeout(() => {
-                    addMessage("There are many opportunities for women in tech! Currently, there are positions in software development, UX design, data analysis and project management. Many companies are actively seeking to increase gender diversity. Would you like me to help you explore specific roles or companies?", false);
-                }, 1000);
-            }
-        }
-
-        // Make handleShowAllJobs globally available
-        window.handleShowAllJobs = handleShowAllJobs;
-        window.getBusinessEmail = getBusinessEmail;
-
-        // Initialize the page
-        init();
-    </script>
-</body>
+            // Initialize the page
+            init();
+        </script>
+    </body>
 </html>
